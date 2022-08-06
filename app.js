@@ -4,7 +4,7 @@ const db_config = require('./configs/db_config')
 const config = require('./configs/config')
 
 const app = express()
-db_config.connect_mongodb()
+db_config.connect_mongodb() // creates connection to mongodb
 
 app.use(morgan('dev')) // morgan is a middleware that logs the requests
 app.use(express.json()) // express.json is a middleware that parses the body of the request to json
