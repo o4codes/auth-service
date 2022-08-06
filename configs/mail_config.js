@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const config = require('../config');
+const config = require('../configs/config');
 
 const {mail: {username, password, oauth_client_id, oauth_client_secret, oauth_refresh_token}} = config;
 

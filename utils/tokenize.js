@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const config = require('../configs/config');
 
 function encrypt(payload) {
     const token = jwt.sign(payload, config.jwt.secret, {expiresIn: '1h'});

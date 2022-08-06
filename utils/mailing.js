@@ -1,4 +1,4 @@
-const mail_config = require('../config/mail_config');
+const mail_config = require('../configs/mail_config');
 
 function send_mail(to, subject, body) {
     const {transporter, mail_from} = mail_config;
