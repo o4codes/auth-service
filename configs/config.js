@@ -15,6 +15,10 @@ const config = {
         oauth_client_id: process.env.OAUTH_CLIENT_ID,
         oauth_client_secret: process.env.OAUTH_CLIENT_SECRET,
         oauth_refresh_token: process.env.OAUTH_REFRESH_TOKEN,
+    },
+    jwt: {
+        secret: process.env.JWT_SECRET || 'secret',
+        duration: process.env.JWT_DURATION || '1h'
     }
 }
 
