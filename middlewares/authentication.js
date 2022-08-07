@@ -35,6 +35,7 @@ function authMiddleware(...roles){
                             next();
                         }
                     }).catch(err => {
+                        console.log(err);
                         return res.status(500).send({
                             "status": "fail",
                             "message": "Server error",
@@ -50,7 +51,8 @@ function authMiddleware(...roles){
         }
         catch(err){
             // catch jwt error
-            if (err.name === 'JsonWebTokenError') {
+            console.log(err);
+            if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
                 return res.status(401).send({
                     "status": "fail",
                     "message": "Invalid token",
