@@ -1,5 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./docs/swagger.json');
 const db_config = require('./configs/db_config')
 const config = require('./configs/config')
 const authRoute = require('./routes/auth')
@@ -26,6 +28,8 @@ app.get('/', (req, res) => {
 app.get('/api/docs', (req, res) => {
     res.redirect('https://documenter.getpostman.com/view/15040280/VUjMnkSx')
 });
+
+app.use('/api/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(errorHandler) // error handler middleware
 app.listen(config.app.port, () => {

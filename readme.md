@@ -5,6 +5,7 @@ This is an authentication api service that can serve as a 3rd party authenticati
 ## Documentation
 
 Endpoint docs can be found at /api/docs or [Documentation](https://documenter.getpostman.com/view/15040280/VUjMnkSx)
+Swagger docs can be found at /api/swagger/
 
 ## Features
 
