@@ -75,11 +75,30 @@ async function deleteUser(req, res) {
     });
 }
 
+async function changeUserRole(req, res) {
+    const { id } = req.params;
+    const user = await user_model.findById(id);
+    if (!user) {
+        return res.status(404).send({
+            "status": "fail",
+            "message": "User not found",
+        });
+    }
+    const { role } = req.body;
+    user.role = role == undefined ? user.role : role;
+    await user.save();
+    return res.status(200).send({
+        "status": "success",
+        "message": "User role updated successfully",
+        "data": user
+    });
+}
 
 
 module.exports = {
     listUsers,
     getUser,
     deleteUser,
-    updateUser
+    updateUser,
+    changeUserRole
 }
