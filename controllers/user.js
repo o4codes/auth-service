@@ -29,10 +29,11 @@ async function updateUser(req, res) {
     const user = await user_model.findById(id);
 
     if (!user) throw new exceptions.NotFoundException('User not found');
-    if (req.user._id != id) throw new exceptions.ForbiddenException('Not enough permissions');
+    if (req.user._id != id) throw new exceptions.ForbiddenException('You are not allowed to update this user');
 
     const { firstname, email, lastname, password} = req.body;
     user.firstname = firstname == undefined ? user.firstname : firstname;
+    user.lastname = lastname == undefined ? user.lastname : lastname;
     user.email = email == undefined ? user.email : email;
     user.password = password == undefined ? user.password : hashing.hash_password(password);
     await user.save();
