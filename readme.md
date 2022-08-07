@@ -19,3 +19,11 @@ Endpoint docs can be found at /api/docs or [Documentation](https://documenter.ge
 9. Update User - PUT /api/v1/auth/user/:id (requires token)
 10. Delete User - DELETE /api/v1/auth/user/:id (requires token)
 11. Change User Role - PUT /api/v1/auth/user/:id/role (requires token)
+
+## Setup
+
+1. clone the repository using `git clone <repository_url>`
+2. cd into the cloned directory
+3. install the dependencies using `npm install`
+4. create a .env file and using the .env.sample file as a template, fill in the details
+5. run the dev server using `npm run dev`
