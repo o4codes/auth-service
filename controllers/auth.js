@@ -4,14 +4,15 @@ const mailing = require('../utils/mailing');
 const tokenize = require('../utils/tokenize');
 
 async function signup(req, res) {
-    const { firstname, lastname, email, password, role } = req.body;
+    const { firstname, lastname, email, password} = req.body;
+
     const hashed_password = await hashing.hash_password(password);
     const user = new user_model({
         firstname,
         lastname,
         email,
         password: hashed_password,
-        role
+        role: 'user',
     });
     await user.save();
     const token = tokenize.encrypt(
