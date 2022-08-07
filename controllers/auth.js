@@ -18,7 +18,7 @@ async function signup(req, res) {
         { id: user._id, email: user.email, role: user.role }
     )
     let baseUrl = req.protocol + '://' + req.get('host');
-    mailing.send_mail(user.email, 'Verify your account', `verify your account by clicking this link: ${baseUrl}/auth/verify/${token}`);
+    mailing.send_mail(user.email, 'Verify your account', `verify your account by clicking this link: ${baseUrl}/api/v1/auth/verify/${token}`);
     res.status(201).send({
         "status": "success",
         "message": "User created successfully",
@@ -40,6 +40,8 @@ async function login(req, res) {
             const token = tokenize.encrypt(
                 { id: user._id, email: user.email, role: user.role }
             )
+            user.is_logged_in = true;
+            await user.save();
             res.status(200).send({
                 "status": "success",
                 "message": "User logged in successfully",
@@ -52,6 +54,16 @@ async function login(req, res) {
             });
         }
     }
+}
+
+async function logout(req, res) {
+    const user = req.user;
+    user.is_logged_in = false;
+    await user.save();
+    return res.status(200).send({
+        "status": "success",
+        "message": "User logged out successfully",
+    });
 }
 
 async function verify(req, res) {
@@ -73,7 +85,7 @@ async function verify(req, res) {
     }
 }
 
-async function reset_password(req, res){
+async function reset_password(req, res) {
     const { email } = req.body;
     const user = await user_model.findOne({ email });
     if (!user) {
@@ -86,7 +98,7 @@ async function reset_password(req, res){
             { id: user._id, email: user.email, role: user.role }
         )
         let baseUrl = req.protocol + '://' + req.get('host');
-        mailing.send_mail(user.email, 'Reset your password', `reset your password by clicking this link: ${baseUrl}/auth/confirm_password_reset/${token}`);
+        mailing.send_mail(user.email, 'Reset your password', `reset your password by clicking this link: ${baseUrl}/api/v1/auth/confirm_password_reset/${token}`);
         res.status(200).send({
             "status": "success",
             "message": "Password reset link sent to your email",
@@ -94,7 +106,7 @@ async function reset_password(req, res){
     }
 }
 
-async function confirm_reset_password(req, res){
+async function confirm_reset_password(req, res) {
     const { token } = req.params;
     const { password } = req.body;
 
@@ -120,6 +132,7 @@ async function confirm_reset_password(req, res){
 module.exports = {
     signup,
     login,
+    logout,
     verify,
     reset_password,
     confirm_reset_password

@@ -12,7 +12,7 @@ app.use(express.json()) // express.json is a middleware that parses the body of 
 
 
 //routes
-app.use('/auth', authRoute)
+app.use('/api/v1/auth', authRoute)
 
 app.get('/', (req, res) => {
     res.send({

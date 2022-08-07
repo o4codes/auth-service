@@ -37,6 +37,11 @@ user_schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+
+    is_logged_in: {
+        type: Boolean,
+        default: false
+    }
 },
 {
     timestamps: true,
