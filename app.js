@@ -23,6 +23,10 @@ app.get('/', (req, res) => {
     })
 });
 
+app.get('/api/docs', (req, res) => {
+    res.redirect('https://documenter.getpostman.com/view/15040280/VUjMnkSx')
+});
+
 app.listen(config.app.port, () => {
     console.log(`Server is running on port ${config.app.port}`)
 });
