@@ -16,11 +16,19 @@ function authMiddleware(...roles){
                                 "message": "Invalid credentials",
                             });
                         } else {
-                            // pass user details to the next middleware
+                            // check if user has required access role
                             if (roles.length != 0 && !roles.includes(user.role)) {
                                 return res.status(403).send({
                                     "status": "fail",
                                     "message": "Not enough permissions",
+                                });
+                            }
+
+                            // check if user is logged in
+                            if (user.is_logged_in === false) {
+                                return res.status(401).send({
+                                    "status": "fail",
+                                    "message": "User is not logged in",
                                 });
                             }
                             req.user = user;

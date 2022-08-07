@@ -40,6 +40,14 @@ async function login(req, res) {
             const token = tokenize.encrypt(
                 { id: user._id, email: user.email, role: user.role }
             )
+
+            if (!user.is_verified){
+                return res.status(401).send({
+                    "status": "fail",
+                    "message": "User not verified",
+                });
+            }
+            
             user.is_logged_in = true;
             await user.save();
             res.status(200).send({
