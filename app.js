@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const db_config = require('./configs/db_config')
 const config = require('./configs/config')
 const authRoute = require('./routes/auth')
+const userRoute = require('./routes/user')
 
 const app = express()
 db_config.connect_mongodb() // creates connection to mongodb
@@ -13,6 +14,7 @@ app.use(express.json()) // express.json is a middleware that parses the body of 
 
 //routes
 app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/users', userRoute)
 
 app.get('/', (req, res) => {
     res.send({

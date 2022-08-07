@@ -27,3 +27,8 @@ async function getUser(req, res) {
         "data": user
     });
 }
+
+module.exports = {
+    listUsers,
+    getUser
+}
