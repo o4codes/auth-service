@@ -1,5 +1,6 @@
 const user_model = require('../models/user');
 const hashing = require('../utils/hashing');
+const exceptions = require('../utils/exceptions');
 
 // gets all users
 async function listUsers(req, res) {
@@ -15,12 +16,7 @@ async function listUsers(req, res) {
 async function getUser(req, res) {
     const { id } = req.params;
     const user = await user_model.findById(id);
-    if (!user) {
-        res.status(404).send({
-            "status": "fail",
-            "message": "User not found",
-        });
-    }
+    if (!user) throw new exceptions.NotFoundException('User not found');
     res.status(200).send({
         "status": "success",
         "message": "User retrieved successfully",
@@ -32,19 +28,8 @@ async function updateUser(req, res) {
     const { id } = req.params;
     const user = await user_model.findById(id);
 
-    if (!user) {
-        return res.status(404).send({
-            "status": "fail",
-            "message": "User not found",
-        });
-    }
-
-    if (req.user._id != id) {
-        return res.status(403).send({
-            "status": "fail",
-            "message": "You are not authorized to update this user",
-        });
-    }
+    if (!user) throw new exceptions.NotFoundException('User not found');
+    if (req.user._id != id) throw new exceptions.ForbiddenException('Not enough permissions');
 
     const { firstname, email, lastname, password} = req.body;
     user.firstname = firstname == undefined ? user.firstname : firstname;
@@ -62,12 +47,7 @@ async function updateUser(req, res) {
 async function deleteUser(req, res) {
     const { id } = req.params;
     const user = await user_model.findById(id);
-    if (!user) {
-        return res.status(404).send({
-            "status": "fail",
-            "message": "User not found",
-        });
-    }
+    if (!user) throw new exceptions.NotFoundException('User not found');
     await user.remove();
     return res.status(200).send({
         "status": "success",
@@ -78,12 +58,7 @@ async function deleteUser(req, res) {
 async function changeUserRole(req, res) {
     const { id } = req.params;
     const user = await user_model.findById(id);
-    if (!user) {
-        return res.status(404).send({
-            "status": "fail",
-            "message": "User not found",
-        });
-    }
+    if (!user) throw new exceptions.NotFoundException('User not found');
     const { role } = req.body;
     user.role = role == undefined ? user.role : role;
     await user.save();
